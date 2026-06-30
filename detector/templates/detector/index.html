@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #ff6b35;
+            --dark: #0d1b2a;
+            --dark2: #1b2d42;
+            --light: #f8f9fc;
+            --text: #2c3e50;
+            --muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,107,53,0.1);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 8px;
+            max-width: 480px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            padding: 32px;
+            width: 100%;
+            max-width: 720px;
+            border-top: 4px solid var(--primary);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            padding: 16px;
+            border: 1.5px solid #e0e6ee;
+            border-radius: 10px;
+            background: var(--light);
+            color: var(--text);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
+        }
+
+        button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 13px 36px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            margin-top: 18px;
+            transition: background 0.2s, transform 0.2s;
+            letter-spacing: 0.4px;
+        }
+
+        button:hover {
+            background: #e55a28;
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 28px;
+            padding: 22px 24px;
+            border-radius: 14px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .real {
+            background: #e9f9ee;
+            border: 1.5px solid #b3e6c4;
+        }
+
+        .fake {
+            background: #fdecec;
+            border: 1.5px solid #f3b6b6;
+        }
+
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .result-label {
+            font-size: 1.15rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .real .result-label { color: #1c7c3f; }
+        .fake .result-label { color: #c0392b; }
+
+        .confidence-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .confidence-bar-bg {
+            background: #e2e6ec;
+            border-radius: 10px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .confidence-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        .real .confidence-bar-fill {
+            background: linear-gradient(90deg, #28a745, #4cd167);
+        }
+
+        .fake .confidence-bar-fill {
+            background: linear-gradient(90deg, #e74c3c, #ff8a75);
+        }
+
+        .footer-note {
+            margin-top: 28px;
+            font-size: 0.8rem;
+            color: #aab4c4;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 22px; }
+            .header h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span class="badge">NLP &middot; Machine Learning</span>
+        <h1>Fake News Detector</h1>
+        <p>Paste a news headline or article below and our model will analyze it using NLP and machine learning to predict whether it's real or fake.</p>
+    </div>
+
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+            <textarea name="news_text" placeholder="Paste a news article or headline here...">{{ text }}</textarea>
+            <br>
+            <button type="submit">Analyze Article</button>
+        </form>
+
+        {% if result %}
+            <div class="result {% if result == 'Real' %}real{% else %}fake{% endif %}">
+                <div class="result-top">
+                    <span class="result-label">
+                        {% if result == 'Real' %}✅ Real News{% else %}⚠️ Fake News{% endif %}
+                    </span>
+                    <span class="confidence-value">{{ confidence }}% confidence</span>
+                </div>
+                <div class="confidence-bar-bg">
+                    <div class="confidence-bar-fill" style="width: {{ confidence }}%;"></div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <p class="footer-note">Powered by Logistic Regression &amp; TF-IDF &middot; Trained on 44,000+ news articles &middot; 99% accuracy</p>
+
+</body>
+</html>
