@@ -1,112 +1,122 @@
 # 📰 Fake News Detector
 
-A Machine Learning-powered web application built with **Django** that detects whether a news article is **Real** or **Fake** using Natural Language Processing (NLP).
+A machine learning powered web application that analyzes news articles and predicts whether they are **Real** or **Fake** using Natural Language Processing and Logistic Regression.
 
-## 🚀 Features
-
-- Detects fake and real news articles
-- Machine Learning model trained using Logistic Regression
-- TF-IDF vectorization for text processing
-- User-friendly Django web interface
-- Displays prediction confidence
-- Responsive and clean UI
-
-## 🛠️ Technologies Used
-
-- Python
-- Django
-- Scikit-learn
-- Pandas
-- NumPy
-- HTML
-- CSS
-
-## 📂 Project Structure
-
-```
-fake-news-detector/
-│── detector/
-│── fakenews/
-│── ml/
-│── templates/
-│── static/
-│── manage.py
-│── requirements.txt
-│── README.md
-```
-
-## ⚙️ Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/Manojkumar7878/fake-news-detector.git
-```
-
-Go to the project folder:
-
-```bash
-cd fake-news-detector
-```
-
-Create a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Activate the virtual environment:
-
-Windows
-
-```bash
-.venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the Django server:
-
-```bash
-python manage.py runserver
-```
-
-Open your browser:
-
-```
-http://127.0.0.1:8000/
-```
-
-## 🧠 Machine Learning
-
-- Algorithm: Logistic Regression
-- Feature Extraction: TF-IDF Vectorizer
-- Dataset: Fake and Real News Dataset
-- Accuracy: **99%+**
-
-## 📷 Screenshots
-
-Add screenshots of your application here.
-
-## 📌 Future Improvements
-
-- Support multiple ML models
-- Deploy on Render or Railway
-- REST API support
-- User authentication
-- News source verification
-
-## 👨‍💻 Author
-
-**Manoj Kumar**
-
-GitHub:
-https://github.com/Manojkumar7878
+🔗 **Live Demo:** _add your Render link here after deployment_
+🔗 **GitHub:** https://github.com/Manojkumar7878/fake-news-detector
 
 ---
 
-⭐ If you found this project useful, consider giving it a star!
+## ✨ Features
+
+- 🔍 **Instant Analysis** — paste any news headline or article and get a prediction in real time
+- 📊 **Confidence Score** — shows how confident the model is with an animated progress bar
+- 🎨 **Clean Responsive UI** — modern interface that works on desktop and mobile
+- 🧠 **99% Accuracy** — trained on 44,000+ labeled news articles
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Backend | Python, Django |
+| Machine Learning | Scikit-learn (Logistic Regression) |
+| NLP | NLTK, TF-IDF Vectorization |
+| Data Processing | Pandas, NumPy |
+| Frontend | HTML, CSS |
+| Deployment | Render |
+
+---
+
+## 🧠 How It Works
+
+```
+44,000+ News Articles (ISOT Dataset)
+            ↓
+   Clean text with NLTK
+   (lowercase, remove punctuation, remove stopwords)
+            ↓
+   Convert text to numbers — TF-IDF Vectorizer
+            ↓
+   Train Logistic Regression model → 99% accuracy
+            ↓
+   Save model.pkl + vectorizer.pkl
+            ↓
+   User submits article → Django loads model
+            ↓
+   Predict Real or Fake + confidence %
+            ↓
+   Result shown with animated confidence bar
+```
+
+---
+
+## 📁 Project Structure
+
+```
+fake-news-detector/
+├── detector/
+│   ├── views.py           # loads model, handles prediction
+│   ├── urls.py
+│   └── templates/
+│       └── detector/
+│           └── index.html  # main UI
+├── fakenews/
+│   ├── settings.py
+│   └── urls.py
+├── ml/
+│   ├── train.py            # training script
+│   ├── model.pkl           # trained model
+│   └── vectorizer.pkl      # TF-IDF vectorizer
+├── manage.py
+└── requirements.txt
+```
+
+---
+
+## 📊 Model Details
+
+- **Algorithm:** Logistic Regression
+- **Vectorization:** TF-IDF (5,000 max features)
+- **Dataset:** ISOT Fake News Dataset (~44,000 articles)
+- **Train/Test Split:** 80% / 20%
+- **Test Accuracy:** 99%
+
+---
+
+## 🚀 Run Locally
+
+```bash
+# Clone the repo
+git clone https://github.com/Manojkumar7878/fake-news-detector.git
+cd fake-news-detector
+
+# Create virtual environment
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # Mac/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run server
+python manage.py runserver
+```
+
+Visit `http://127.0.0.1:8000`
+
+### Retrain model (optional)
+```bash
+cd ml
+python train.py
+```
+
+---
+
+## 👨‍💻 Author
+
+**Manojkumar M**
+- GitHub: [@Manojkumar7878](https://github.com/Manojkumar7878)
+- LinkedIn: [manojkr2003](https://www.linkedin.com/in/manojkr2003/)
+- Email: manokr447@gmail.com
