@@ -2,7 +2,7 @@
 
 A machine learning powered web application that analyzes news articles and predicts whether they are **Real** or **Fake** using Natural Language Processing and Logistic Regression.
 
-🔗 **Live Demo:** _add your Render link here after deployment_
+🔗 **Live Demo:** https://fake-news-detector-1-klnf.onrender.com
 🔗 **GitHub:** https://github.com/Manojkumar7878/fake-news-detector
 
 ---
